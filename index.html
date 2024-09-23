@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>AutoAnswer</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffffff;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            background: #fffcfb;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 400px;
+            box-sizing: border-box;
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            color: #f15a22;
+        }
+        h2 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        h3 {
+            font-size: 1em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        input[type="file"], select {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        input[type="submit"] {
+            background-color: #f15a22;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1em;
+        }
+        input[type="submit"]:hover {
+            background-color: #f15a22;
+        }
+        .logo {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .logo img {
+            max-width: 40%;
+            height: auto;
+        }
+        .alert {
+            color: red;
+            margin-bottom: 20px;
+            display: none;
+        }
+    </style>
+    <script>
+        function validateForm(event) {
+            var fileInput = document.querySelector('input[type="file"]');
+            var orgSelect = document.querySelector('select[name="organization"]');
+            var alertMessage = document.getElementById('alertMessage');
+
+            if (fileInput.files.length === 0 || orgSelect.value === 'null') {
+                event.preventDefault();
+                alertMessage.style.display = 'block';
+                alertMessage.textContent = 'Please select a file and an organization before uploading.';
+            } else {
+                alertMessage.style.display = 'none';
+            }
+        }
+        document.addEventListener('DOMContentLoaded', function() {
+            var form = document.querySelector('form');
+            form.addEventListener('submit', validateForm);
+        });
+    </script>
+</head>
+<body>
+    <div class="logo">
+        <img src="logo_compañia_aqui" alt="Logo">
+    </div>
+    <div class="container">
+        <h1>AUTO ANSWER</h1>
+        <h2>Carga el Excel con los nombres de Usuario</h2>
+        <h3>Selecciona la Organización</h3>
+        <div id="alertMessage" class="alert">Por favor selecciona un Excel y posteriormente cargalo</div>
+        <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+            <select name="organization">
+                <option value="null">Selecciona la Organización</option>
+                <option value="unitec2">Organización 1</option>
+                <option value="uvm">Organización 2</option>
+                <option value="unitec_canada">Organización 3</option>
+            </select>
+            <input type="file" name="file" />
+            <input type="submit" value="Cargar" />
+        </form>
+    </div>
+</body>
+</html>
